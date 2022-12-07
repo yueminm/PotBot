@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-img = cv2.imread('test_images/test5.jpg')
+img = cv2.imread('test_images/test7.jpg')
 height = len(img)
 width = len(img[0])
 img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
