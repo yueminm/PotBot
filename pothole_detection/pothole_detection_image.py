@@ -1,4 +1,3 @@
-from turtle import end_fill
 import numpy as np
 import cv2
 
