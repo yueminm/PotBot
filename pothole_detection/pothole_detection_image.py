@@ -12,6 +12,7 @@ upper_purple = np.array([160, 240, 240], dtype='uint8')
 
 mask = cv2.inRange(img_hsv, lower_purple, upper_purple)
 if not any(255 in x for x in mask):
+    
     print('No potholes in the view')
 else:
     print('Pothole detected')

@@ -19,10 +19,10 @@ while True:
     width = len(frame[0])
     frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    lower_purple = np.array([130, 0, 220], dtype='uint8')
-    upper_purple = np.array([170, 255, 255], dtype='uint8')
+    lower_threshold = np.array([130, 0, 220], dtype='uint8')
+    upper_threshold = np.array([170, 255, 255], dtype='uint8')
 
-    mask = cv2.inRange(frame_hsv, lower_purple, upper_purple)
+    mask = cv2.inRange(frame_hsv, lower_threshold, upper_threshold)
     if not any(255 in x for x in mask):
         detected = False
         print('No potholes in the view')
