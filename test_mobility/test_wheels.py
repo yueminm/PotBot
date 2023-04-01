@@ -1,47 +1,76 @@
-from Arduino import Arduino
+from pyfirmata import Arduino, util
 import time
+import keyboard
 
-board = Arduino() # plugged in via USB, serial com at rate 115200
+# Monkey patch to fix python 3.11 bug
+import inspect
 
-front_left_1 = 2
-front_left_2 = 3
-rear_left_1 = 4
-rear_left_2 = 5
-front_right_1 = 6
-front_right_2 = 7
-rear_right_1 = 8
-rear_right_2 = 9
-
-board.pinMode(front_left_1, "OUTPUT")
-board.pinMode(front_left_2, "OUTPUT")
-board.pinMode(rear_left_1, "OUTPUT")
-board.pinMode(rear_left_2, "OUTPUT")
-board.pinMode(front_right_1, "OUTPUT")
-board.pinMode(front_right_2, "OUTPUT")
-board.pinMode(rear_right_1, "OUTPUT")
-board.pinMode(rear_right_2, "OUTPUT")
+if not hasattr(inspect, 'getargspec'):
+    inspect.getargspec = inspect.getfullargspec
 
 
+# portDir = "/dev/cu.usbmodem142101"
+# dir = portDir.decode('utf8', errors='ignore')
+# portDir.encode('utf-8')
+board = Arduino('/dev/cu.usbmodem142101')
+
+# L_REN = board.get_pin('d:1:o')
+# L_LEN = board.get_pin('d:2:o')
+# R_REN = board.get_pin('d:7:o')
+# R_LEN = board.get_pin('d:8:o')
+
+L_RPWM = board.get_pin('d:3:p')
+L_LPWM = board.get_pin('d:5:p')
+R_RPWM = board.get_pin('d:9:p')
+R_LPWM = board.get_pin('d:10:p')
+
+# L_REN.write('HIGH')
+# L_LEN.write('HIGH')
+# R_REN.write('HIGH')
+# R_LEN.write('HIGH')
 
 while True:
-    board.digitalWrite(front_left_1, "HIGH")
-    board.digitalWrite(front_left_2, "LOW")
-    board.digitalWrite(rear_left_1, "HIGH")
-    board.digitalWrite(rear_left_2, "LOW")
-    board.digitalWrite(front_right_1, "HIGH")
-    board.digitalWrite(front_right_2, "LOW")
-    board.digitalWrite(rear_right_1, "HIGH")
-    board.digitalWrite(rear_right_2, "LOW")
+    # print('stop')
+    # L_LPWM.write(0)
+    # L_RPWM.write(0)
+    # R_LPWM.write(0)
+    # R_RPWM.write(0)
+    # time.sleep(5)
+    
+    if keyboard.read_key() == "w":
+        print('forward')
+        L_LPWM.write(0.5)
+        L_RPWM.write(0)
+        R_LPWM.write(0.5)
+        R_RPWM.write(0)
+        time.sleep(5)
+    
+    # print('backward')
+    # L_LPWM.write(0)
+    # L_RPWM.write(0.5)
+    # R_LPWM.write(0)
+    # R_RPWM.write(0.5)
+    # time.sleep(5)
+    
+    # print('left')
+    # L_LPWM.write(0)
+    # L_RPWM.write(0.5)
+    # R_LPWM.write(0.5)
+    # R_RPWM.write(0)
+    # time.sleep(5)
+    
+    # print('right')
+    # L_LPWM.write(0.5)
+    # L_RPWM.write(0)
+    # R_LPWM.write(0)
+    # R_RPWM.write(0.5)
+    # time.sleep(5)
+    
+    # print('stop')
+    # L_LPWM.write(0)
+    # L_RPWM.write(0)
+    # R_LPWM.write(0)
+    # R_RPWM.write(0)
+    # time.sleep(5)
 
-    time.sleep(5)
 
-    board.digitalWrite(front_left_1, "HIGH")
-    board.digitalWrite(front_left_2, "LOW")
-    board.digitalWrite(rear_left_1, "HIGH")
-    board.digitalWrite(rear_left_2, "LOW")
-    board.digitalWrite(front_right_1, "HIGH")
-    board.digitalWrite(front_right_2, "LOW")
-    board.digitalWrite(rear_right_1, "HIGH")
-    board.digitalWrite(rear_right_2, "LOW")
-
-    time.sleep(5)
