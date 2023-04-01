@@ -12,7 +12,8 @@ if not hasattr(inspect, 'getargspec'):
 # portDir = "/dev/cu.usbmodem142101"
 # dir = portDir.decode('utf8', errors='ignore')
 # portDir.encode('utf-8')
-board = Arduino('/dev/cu.usbmodem142101')
+# board = Arduino('/dev/cu.usbmodem142101')
+board = Arduino('COM4')
 
 # L_REN = board.get_pin('d:1:o')
 # L_LEN = board.get_pin('d:2:o')
@@ -31,19 +32,52 @@ R_LPWM = board.get_pin('d:10:p')
 
 while True:
     # print('stop')
-    # L_LPWM.write(0)
-    # L_RPWM.write(0)
-    # R_LPWM.write(0)
-    # R_RPWM.write(0)
-    # time.sleep(5)
+    L_LPWM.write(0)
+    L_RPWM.write(0)
+    R_LPWM.write(0)
+    R_RPWM.write(0)
     
-    if keyboard.read_key() == "w":
+    if keyboard.is_pressed('w'):
         print('forward')
         L_LPWM.write(0.5)
         L_RPWM.write(0)
         R_LPWM.write(0.5)
         R_RPWM.write(0)
-        time.sleep(5)
+        time.sleep(0.1)
+
+    if keyboard.is_pressed('s'):
+        print('backward')
+        L_LPWM.write(0)
+        L_RPWM.write(0.5)
+        R_LPWM.write(0)
+        R_RPWM.write(0.5)
+        time.sleep(0.1)
+
+    if keyboard.is_pressed('a'):
+        print('left')
+        L_LPWM.write(0)
+        L_RPWM.write(0.5)
+        R_LPWM.write(0.5)
+        R_RPWM.write(0)
+        time.sleep(0.1)
+
+    if keyboard.is_pressed('d'):
+        print('right')
+        L_LPWM.write(0.5)
+        L_RPWM.write(0)
+        R_LPWM.write(0)
+        R_RPWM.write(0.5)
+        time.sleep(0.1)
+
+    if keyboard.is_pressed('q'):
+        print('dtop')
+        L_LPWM.write(0)
+        L_RPWM.write(0)
+        R_LPWM.write(0)
+        R_RPWM.write(0)
+        time.sleep(0.1)
+    
+
     
     # print('backward')
     # L_LPWM.write(0)
