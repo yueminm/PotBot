@@ -76,35 +76,5 @@ while True:
         R_LPWM.write(0)
         R_RPWM.write(0)
         time.sleep(0.1)
-    
-
-    
-    # print('backward')
-    # L_LPWM.write(0)
-    # L_RPWM.write(0.5)
-    # R_LPWM.write(0)
-    # R_RPWM.write(0.5)
-    # time.sleep(5)
-    
-    # print('left')
-    # L_LPWM.write(0)
-    # L_RPWM.write(0.5)
-    # R_LPWM.write(0.5)
-    # R_RPWM.write(0)
-    # time.sleep(5)
-    
-    # print('right')
-    # L_LPWM.write(0.5)
-    # L_RPWM.write(0)
-    # R_LPWM.write(0)
-    # R_RPWM.write(0.5)
-    # time.sleep(5)
-    
-    # print('stop')
-    # L_LPWM.write(0)
-    # L_RPWM.write(0)
-    # R_LPWM.write(0)
-    # R_RPWM.write(0)
-    # time.sleep(5)
 
 
