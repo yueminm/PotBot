@@ -19,13 +19,14 @@ else:
     edges = np.where(mask==255)
     closest_point = np.where(edges[0]==edges[0].max())
     i_closest = closest_point[0][0]
-    [row, col] = [edges[0][i_closest], edges[1][i_closest]]
+    row = edges[0][i_closest]
+    col = sum(edges[1]) / len(edges[1])
     print(row, col)
 
 img_filtered = cv2.bitwise_and(img, img, mask=mask)
 cv2.imshow("red color detection", img_filtered)
 
-img_processed = cv2.circle(img, (col, row), 10, (0, 255, 0), 5)
+img_processed = cv2.circle(img, (int(col), row), 10, (0, 255, 0), 5)
 cv2.imshow('processed image', img_processed)
 cv2.waitKey(0)
 
