@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-import matplotlib.pyplot as plt
 import math
 
 
@@ -93,7 +92,7 @@ def imageInfo(img,thresh):
     contourYCenter = int(countY/size)
 
     # print the image
-    cv2.circle(binary_img,(contourXCenter,contourYCenter),20,(0,255,0),3)
+    cv2.circle(binary_img,(contourXCenter,contourYCenter),20,(255,0,0),3)
     cv2.imshow('image',binary_img)
     cv2.waitKey(1) & 0xFF == ord('q')
 
@@ -103,12 +102,14 @@ def imageInfo(img,thresh):
     return sizeErr, dir, contourXCenter, contourYCenter
 
 
-vid = cv2.VideoCapture(0)
+vid = cv2.VideoCapture(2)
+
 
 while True:
     
     # capturing the current frame
     _, frame = vid.read()
     thresh = getThresh(frame)
+    # cv2.imshow('originl', frame)
     _, _, xValue, yValue = imageInfo(frame,thresh)
     print(xValue, yValue)
