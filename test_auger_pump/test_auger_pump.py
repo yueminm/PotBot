@@ -8,7 +8,7 @@ import inspect
 if not hasattr(inspect, 'getargspec'):
     inspect.getargspec = inspect.getfullargspec
     
-board = Arduino('COM4')
+board = Arduino('COM3')
 
 A_RPWM = board.get_pin('d:3:p')
 A_LPWM = board.get_pin('d:5:p')
