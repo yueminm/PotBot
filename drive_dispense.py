@@ -1,4 +1,4 @@
-from pyfirmata import Arduino, util
+from pyfirmata import ArduinoMega, util
 import time
 import keyboard
 
@@ -9,19 +9,25 @@ if not hasattr(inspect, 'getargspec'):
     inspect.getargspec = inspect.getfullargspec
 
 
-board = Arduino('COM3')
+# board = {
+    # 'digital' : tuple(x for x in range(54)),
+    # 'analog' : tuple(x for x in range(16)),
+    # 'pwm' : tuple(x for x in range(2,14)),
+    # 'disabled' : (0,1,14,15)
+    # }
+board = ArduinoMega('COM5')
 
 L_LEN = board.get_pin('d:50:o')
 L_REN = board.get_pin('d:49:o')
-L_RPWM = board.get_pin('d:3:p')
-L_LPWM = board.get_pin('d:2:p')
+L_RPWM = board.get_pin('d:9:p')
+L_LPWM = board.get_pin('d:3:p')
 
-R_RPWM = board.get_pin('d:5:p')
-R_LPWM = board.get_pin('d:4:p')
+R_RPWM = board.get_pin('d:10:p')
+R_LPWM = board.get_pin('d:5:p')
 
 A_RENABLE = board.get_pin('d:48:o')
 A_LENABLE = board.get_pin('d:47:o')
-A_RPWM = board.get_pin('d:7:p')
+A_RPWM = board.get_pin('d:11:p')
 A_LPWM = board.get_pin('d:6:p')
 
 pump = board.get_pin('d:46:o')
@@ -63,18 +69,18 @@ while True:
 
     if keyboard.is_pressed('a'):
         print('left')
-        L_LPWM.write(0)
-        L_RPWM.write(0.5)
-        R_LPWM.write(0.5)
-        R_RPWM.write(0)
-        time.sleep(sleepTime)
-
-    if keyboard.is_pressed('d'):
-        print('right')
         L_LPWM.write(0.5)
         L_RPWM.write(0)
         R_LPWM.write(0)
         R_RPWM.write(0.5)
+        time.sleep(sleepTime)
+
+    if keyboard.is_pressed('d'):
+        print('right')
+        L_LPWM.write(0)
+        L_RPWM.write(0.5)
+        R_LPWM.write(0.5)
+        R_RPWM.write(0)
         time.sleep(sleepTime)
 
     if keyboard.is_pressed('q'):
@@ -97,7 +103,7 @@ while True:
         A_RPWM.write(0.5)
         time.sleep(sleepTime)
     
-    if keyboard.is_pressed('o'):
+    if keyboard.is_pressed('l'):
         print("pump")
         pump.write(1)
         time.sleep(sleepTime)

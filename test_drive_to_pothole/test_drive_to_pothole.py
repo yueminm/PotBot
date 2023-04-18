@@ -1,4 +1,4 @@
-from pyfirmata import Arduino, util
+from pyfirmata import ArduinoMega, util
 import time
 import keyboard
 import numpy as np
@@ -12,19 +12,20 @@ if not hasattr(inspect, 'getargspec'):
     inspect.getargspec = inspect.getfullargspec
 
 #initialize board
-board = Arduino('COM4')
+board = ArduinoMega('COM4')
 L_LEN = board.get_pin('d:50:o')
 L_REN = board.get_pin('d:49:o')
-L_RPWM = board.get_pin('d:3:p')
-L_LPWM = board.get_pin('d:2:p')
+L_RPWM = board.get_pin('d:9:p')
+L_LPWM = board.get_pin('d:3:p')
 
-R_RPWM = board.get_pin('d:5:p')
-R_LPWM = board.get_pin('d:4:p')
+R_RPWM = board.get_pin('d:10:p')
+R_LPWM = board.get_pin('d:5:p')
 
 A_RENABLE = board.get_pin('d:48:o')
 A_LENABLE = board.get_pin('d:47:o')
-A_RPWM = board.get_pin('d:7:p')
+A_RPWM = board.get_pin('d:11:p')
 A_LPWM = board.get_pin('d:6:p')
+
 pump = board.get_pin('d:46:o')
 
 sleepTime = 0.1
