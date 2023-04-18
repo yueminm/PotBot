@@ -9,31 +9,41 @@ if not hasattr(inspect, 'getargspec'):
     inspect.getargspec = inspect.getfullargspec
 
 
-board1 = Arduino('COM4')
+board = Arduino('COM3')
 
-L_RPWM = board1.get_pin('d:3:p')
-L_LPWM = board1.get_pin('d:5:p')
-R_RPWM = board1.get_pin('d:9:p')
-R_LPWM = board1.get_pin('d:10:p')
+L_LEN = board.get_pin('d:50:o')
+L_REN = board.get_pin('d:49:o')
+L_RPWM = board.get_pin('d:3:p')
+L_LPWM = board.get_pin('d:2:p')
 
+R_RPWM = board.get_pin('d:5:p')
+R_LPWM = board.get_pin('d:4:p')
 
-board2 = Arduino('COM3')
+A_RENABLE = board.get_pin('d:48:o')
+A_LENABLE = board.get_pin('d:47:o')
+A_RPWM = board.get_pin('d:7:p')
+A_LPWM = board.get_pin('d:6:p')
 
-A_RPWM = board2.get_pin('d:3:p')
-A_LPWM = board2.get_pin('d:5:p')
-A_RENABLE = board2.get_pin('d:4:o')
-A_LENABLE = board2.get_pin('d:2:o')
+pump = board.get_pin('d:46:o')
+
+sleepTime = 0.1
+
 
 while True:
+    L_LEN.write(1)
+    L_REN.write(1)
     L_LPWM.write(0)
     L_RPWM.write(0)
+
     R_LPWM.write(0)
     R_RPWM.write(0)
     
-    A_RPWM.write(0) 
-    A_LPWM.write(0)
     A_RENABLE.write(1)
     A_LENABLE.write(1)
+    A_RPWM.write(0) 
+    A_LPWM.write(0)
+
+    pump.write(0)
     
     if keyboard.is_pressed('w'):
         print('forward')
@@ -41,7 +51,7 @@ while True:
         L_RPWM.write(0)
         R_LPWM.write(0.5)
         R_RPWM.write(0)
-        time.sleep(0.1)
+        time.sleep(sleepTime)
 
     if keyboard.is_pressed('s'):
         print('backward')
@@ -49,7 +59,7 @@ while True:
         L_RPWM.write(0.5)
         R_LPWM.write(0)
         R_RPWM.write(0.5)
-        time.sleep(0.1)
+        time.sleep(sleepTime)
 
     if keyboard.is_pressed('a'):
         print('left')
@@ -57,7 +67,7 @@ while True:
         L_RPWM.write(0.5)
         R_LPWM.write(0.5)
         R_RPWM.write(0)
-        time.sleep(0.1)
+        time.sleep(sleepTime)
 
     if keyboard.is_pressed('d'):
         print('right')
@@ -65,7 +75,7 @@ while True:
         L_RPWM.write(0)
         R_LPWM.write(0)
         R_RPWM.write(0.5)
-        time.sleep(0.1)
+        time.sleep(sleepTime)
 
     if keyboard.is_pressed('q'):
         print('stop')
@@ -73,16 +83,22 @@ while True:
         L_RPWM.write(0)
         R_LPWM.write(0)
         R_RPWM.write(0)
-        time.sleep(0.1)
+        time.sleep(sleepTime)
     
     if keyboard.is_pressed('o'):
         print('auger forward')
         A_LPWM.write(0.5)
         A_RPWM.write(0)
-        time.sleep(0.1)
+        time.sleep(sleepTime)
     
     if keyboard.is_pressed('p'):
         print('auger backward')
         A_LPWM.write(0)
         A_RPWM.write(0.5)
-        time.sleep(0.1)
+        time.sleep(sleepTime)
+    
+    if keyboard.is_pressed('o'):
+        print("pump")
+        pump.write(1)
+        time.sleep(sleepTime)
+
