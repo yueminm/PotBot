@@ -106,7 +106,7 @@ def imageInfo(img,thresh):
     return sizeErr, dir, contourXCenter, contourYCenter
 
 
-vid = cv2.VideoCapture(0)
+vid = cv2.VideoCapture(3)
 
 while True:
     

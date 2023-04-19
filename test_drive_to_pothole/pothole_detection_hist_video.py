@@ -23,7 +23,7 @@ def getThresh(img):
             hues[img[col][row][0]] = hues[img[col][row][0]] + 1
 
 
-    idx = 150 # target hue
+    idx = 170 # target hue
     max = 0
     maxValue = 0
 
@@ -93,8 +93,8 @@ def imageInfo(img,thresh):
     contourYCenter = int(countY/size)
 
     # print the image
-    cv2.circle(binary_img,(contourXCenter,contourYCenter),20,(0,255,0),3)
-    cv2.imshow('image',binary_img)
+    cv2.circle(img,(contourXCenter,contourYCenter),20,(0,255,0),3)
+    cv2.imshow('image',img)
     cv2.waitKey(1) & 0xFF == ord('q')
 
     sizeErr = math.sqrt(12372/size) # FIND THE DIFFERENCE BETWEEN THE AREAS
@@ -103,12 +103,12 @@ def imageInfo(img,thresh):
     return sizeErr, dir, contourXCenter, contourYCenter
 
 
-vid = cv2.VideoCapture(0)
+# vid = cv2.VideoCapture(3)
 
-while True:
+# while True:
     
     # capturing the current frame
-    _, frame = vid.read()
-    thresh = getThresh(frame)
-    _, _, xValue, yValue = imageInfo(frame,thresh)
-    print(xValue, yValue)
+    # _, frame = vid.read()
+    # thresh = getThresh(frame)
+    # _, _, xValue, yValue = imageInfo(frame,thresh)
+    # print(xValue, yValue)

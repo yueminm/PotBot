@@ -12,14 +12,14 @@ if not hasattr(inspect, 'getargspec'):
     inspect.getargspec = inspect.getfullargspec
 
 #initialize board
-board = ArduinoMega('COM4')
+board = ArduinoMega('COM5')
 L_LEN = board.get_pin('d:50:o')
 L_REN = board.get_pin('d:49:o')
-L_RPWM = board.get_pin('d:9:p')
-L_LPWM = board.get_pin('d:3:p')
+L_RPWM = board.get_pin('d:3:p')
+L_LPWM = board.get_pin('d:9:p')
 
-R_RPWM = board.get_pin('d:10:p')
-R_LPWM = board.get_pin('d:5:p')
+R_RPWM = board.get_pin('d:5:p')
+R_LPWM = board.get_pin('d:10:p')
 
 A_RENABLE = board.get_pin('d:48:o')
 A_LENABLE = board.get_pin('d:47:o')
@@ -28,18 +28,20 @@ A_LPWM = board.get_pin('d:6:p')
 
 pump = board.get_pin('d:46:o')
 
-sleepTime = 0.1
+sleepTime = 0.5
 
 #initialize the camera
-vid = cv2.VideoCapture(0)
+vid = cv2.VideoCapture(3)
 
 #initialize the angle array and the time between the two (for velocity calcs)
 angleMem = []
 times = []
 forwardConstant = 0.5
 maxModifier = 0.5
-kp = 1
-kd = 0.25
+kp = 0.02
+kd = 0.002
+velAngleErr = 0.0
+angleErr = 0.0
 
 
 #gets the velocity of the pothole in the images
@@ -53,10 +55,13 @@ def getVelocity(positions,times):
     return int(velocity/4)
 
 while True:
+    L_LEN.write(1)
+    L_REN.write(1)
     L_LPWM.write(0)
     L_RPWM.write(0)
     R_LPWM.write(0)
     R_RPWM.write(0)
+    
     
     _, frame = vid.read()
     thresh = getThresh(frame)
@@ -69,11 +74,12 @@ while True:
         angleMem.pop(0)
         times.pop(0)
 
-    #ensure the modifier is not too great
+    #ensure the modifier is not too great 
     modifier = kp*angleErr + kd*velAngleErr
     if abs(modifier) > maxModifier:
         modifier = maxModifier/modifier  * abs(modifier)
 
+    print(modifier)
     L_RPWM.write(forwardConstant+modifier)
     R_RPWM.write(forwardConstant+modifier)
 
