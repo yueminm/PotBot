@@ -91,14 +91,8 @@ while True:
         R_RPWM.write(0)
         time.sleep(sleepTime)
     
-    if keyboard.is_pressed('o'):
-        print('auger forward')
-        A_LPWM.write(0.5)
-        A_RPWM.write(0)
-        time.sleep(sleepTime)
-    
     if keyboard.is_pressed('p'):
-        print('auger backward')
+        print('auger turning')
         A_LPWM.write(0)
         A_RPWM.write(0.5)
         time.sleep(sleepTime)

@@ -23,12 +23,12 @@ def getThresh(img):
             hues[img[col][row][0]] = hues[img[col][row][0]] + 1
 
 
-    idx = 170 # target hue
+    idx = 10 # target hue
     max = 0
     maxValue = 0
 
     #finds the peak around the Target hue 
-    for i in range(30):
+    for i in range(10):
         index = idx + i 
         if index > 179:
             index = index - 180
@@ -62,18 +62,19 @@ def imageInfo(img,thresh):
     rWidth, rHeight = 288,215
     dim = (rWidth,rHeight)
     img = cv2.resize(img,dim,interpolation = cv2.INTER_AREA)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    img2 = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     #threshold for the colors
-    if thresh[1] > 179:
-        binary_img1 = cv2.inRange(img, (thresh[0], 0, 0), (180, 255, 255))
-        binary_img2 = cv2.inRange(img, (0, 0, 0), (thresh[1], 255, 255))
-        binary_img = binary_img1 & binary_img2
-    else:
-        binary_img = cv2.inRange(img, (thresh[0], 0, 0), (thresh[1], 255, 255))
-
-    blur = cv2.GaussianBlur(binary_img,(5,5),0)
-    ret3,binary_img = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    # if thresh[1] > 179:
+    #     binary_img1 = cv2.inRange(img, (thresh[0], 0, 0), (180, 255, 255))
+    #     binary_img2 = cv2.inRange(img, (0, 0, 0), (thresh[1], 255, 255))
+    #     binary_img = binary_img1 & binary_img2
+    # else:
+    #     binary_img = cv2.inRange(img, (thresh[0], 0, 0), (thresh[1], 255, 255))
+    binary_img = cv2.inRange(img2,(120,5,205),(150,20,220))
+    final = cv2.bitwise_and(img2,img2,mask=binary_img)
+    # blur = cv2.GaussianBlur(binary_img,(5,5),0)
+    # ret3,binary_img = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
     #find all target pixles and their placement within the image
     size = 0
@@ -93,7 +94,7 @@ def imageInfo(img,thresh):
     contourYCenter = int(countY/size)
 
     # print the image
-    cv2.circle(img,(contourXCenter,contourYCenter),20,(0,255,0),3)
+    # cv2.circle(img,(contourXCenter,contourYCenter),20,(0,255,0),3)
     cv2.imshow('image',img)
     cv2.waitKey(1) & 0xFF == ord('q')
 
@@ -103,12 +104,12 @@ def imageInfo(img,thresh):
     return sizeErr, dir, contourXCenter, contourYCenter
 
 
-# vid = cv2.VideoCapture(3)
+vid = cv2.VideoCapture(3)
 
-# while True:
+while True:
     
     # capturing the current frame
-    # _, frame = vid.read()
-    # thresh = getThresh(frame)
-    # _, _, xValue, yValue = imageInfo(frame,thresh)
-    # print(xValue, yValue)
+    _, frame = vid.read()
+    thresh = getThresh(frame)
+    _, _, xValue, yValue = imageInfo(frame,thresh)
+    print(xValue, yValue)
