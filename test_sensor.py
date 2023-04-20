@@ -12,7 +12,7 @@ if not hasattr(inspect, 'getargspec'):
 board = ArduinoMega('COM5')
 
 trig = board.get_pin('d:52:o')
-echo = board.get_pin('d:51:o')
+echo = board.get_pin('d:51:i')
 
 it = util.Iterator(board)
 it.start()
