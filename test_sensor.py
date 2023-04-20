@@ -11,31 +11,30 @@ if not hasattr(inspect, 'getargspec'):
 
 board = ArduinoMega('COM5')
 
-trigpin = board.get_pin('d:52:o')
-echopin = board.get_pin('d:51:o')
+trig = board.get_pin('d:52:o')
+echo = board.get_pin('d:51:o')
+
+it = util.Iterator(board)
+it.start()
+
+trig.write(0)
+time.sleep(2)
 
 while True:
-    trigpin.write(0)
-    board.pass_time(0.5)
-    trigpin.write(1)
-    board.pass_time(0.00001)
-    trigpin.write(0)
-    limit_start = time.time()
+    time.sleep(0.5)
+
+    trig.write(1)   
+    time.sleep(0.00001)
+    trig.write(0)
     
-    while echopin.read() != 1:
-        if time.time() - limit_start > 1:
-            break
-        pass
+    # print(echo.read())
+    while echo.read() == False:
+        start = time.time()
+
+    while echo.read() == True:
+        end = time.time()
     
-    start = time.time()
-    
-    while echopin.read() != 0:
-        pass
-    
-    stop = time.time()
-    
-    time_elapsed = stop - start
-    print((time_elapsed) * 34300 / 2)
-    board.pass_time(1)
-    
-    
+    TimeElapsed = end - start
+    distance = (TimeElapsed * 34300) / 2
+
+    print("Measured Distance = {} cm".format(distance))
