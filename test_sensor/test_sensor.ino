@@ -6,8 +6,8 @@
 
 */
 // defines pins numbers
-const int trigPin = 3;
-const int echoPin = 2;
+const int trigPin = 52;
+const int echoPin = 51;
 // defines variables
 long duration;
 float distance = 0;
@@ -41,13 +41,4 @@ void loop()
   // Prints the distance on the Serial Monitor
   //Serial.print("Distance: ");
   Serial.println(measureD);
-}
-
-void outerLoop()
-{
-  if (millis() - startTime <= 4000)
-  {
-    startTime = millis();
-    loop();
-  }
 }
