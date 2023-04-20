@@ -19,8 +19,11 @@ it.start()
 
 trig.write(0)
 time.sleep(2)
+start = 0
+end = 0
 
 while True:
+    trig.write(0)
     time.sleep(0.5)
 
     trig.write(1)   
@@ -31,10 +34,16 @@ while True:
     while echo.read() == False:
         start = time.time()
 
+    # start = time.time()
+
     while echo.read() == True:
+        # print(1)
         end = time.time()
+        # print(2)
+
     
     TimeElapsed = end - start
+    print("start:  ", start, "  end:  ", "  Elapse: ",TimeElapsed)
     distance = (TimeElapsed * 34300) / 2
 
-    print("Measured Distance = {} cm".format(distance))
+    # print("Measured Distance = {} cm".format(distance))
