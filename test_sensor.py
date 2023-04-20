@@ -19,8 +19,7 @@ it.start()
 
 trig.write(0)
 time.sleep(2)
-start = 0
-end = 0
+
 
 while True:
     # trig.write(0)
@@ -52,15 +51,17 @@ while True:
 
     # print("Measured Distance = {} cm".format(distance))
     
-    trig.write(True)
-    time.sleep(0.00001)
-    trig.write(False)
+    pulse_start = time.time()
+    while echo.read() == 0:
+        pulse_start = time.time()
+        
+    pulse_end = time.time()
+    while echo.read() == 1:
+        pulse_end = time.time()
 
-    duration = echo.wait_for_edge(True, timeout=1.0)
-    if duration is None:
-        print('Timeout')
-    else:
-        distance = duration * 1000000 / 58.2 / 2
-        print('Distance:', distance, 'cm')
-    
+    # Calculate the duration of the pulse and the distance
+    pulse_duration = pulse_end - pulse_start
+    distance = pulse_duration * 17150
+
+    print('Distance:', distance, 'cm')
     time.sleep(1)
