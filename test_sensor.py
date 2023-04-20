@@ -56,9 +56,11 @@ while True:
     time.sleep(0.00001)
     trig.write(False)
 
-    # Read the distance
-    duration = echo.read_duration()
-    distance = duration / 58.2
-
-    print('Distance:', distance, 'cm')
+    duration = echo.wait_for_edge(True, timeout=1.0)
+    if duration is None:
+        print('Timeout')
+    else:
+        distance = duration * 1000000 / 58.2 / 2
+        print('Distance:', distance, 'cm')
+    
     time.sleep(1)
