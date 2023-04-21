@@ -10,7 +10,9 @@ if not hasattr(inspect, 'getargspec'):
 
 
 
-board = pymata4.Pymata4() 
+# board = pymata4.Pymata4() 
+# board.shutdown()
+board = pymata4.Pymata4()
 
 # Wheels
 L_LEN = 50
@@ -57,21 +59,26 @@ sleepTime = 0.1
 
 # pump = board.get_pin('d:46:o')
 
-sleepTime = 0.1
 
+speed = 100
+board.digital_write(L_LEN, 1)
+board.digital_write(L_REN, 1)
+
+board.digital_write(A_RENABLE, 1)
+board.digital_write(A_LENABLE, 1)
 
 while True:
     # Wheels
-    board.digital_write(L_LEN, 1)
-    board.digital_write(L_REN, 1)
+    # board.digital_write(L_LEN, 1)
+    # board.digital_write(L_REN, 1)
     board.pwm_write(L_LPWM, 0)
     board.pwm_write(L_RPWM, 0)
     board.pwm_write(R_LPWM, 0)
     board.pwm_write(R_RPWM, 0)
     
     # Auger
-    board.digital_write(A_RENABLE, 1)
-    board.digital_write(A_LENABLE, 1)
+    # board.digital_write(A_RENABLE, 1)
+    # board.digital_write(A_LENABLE, 1)
     board.pwm_write(A_LPWM, 0)
     board.pwm_write(A_RPWM, 0)
 
@@ -80,9 +87,9 @@ while True:
     
     if keyboard.is_pressed('w'):
         print('forward')
-        board.pwm_write(L_LPWM, 0.5)
+        board.pwm_write(L_LPWM, speed)
         board.pwm_write(L_RPWM, 0)
-        board.pwm_write(R_LPWM, 0.5)
+        board.pwm_write(R_LPWM, speed)
         board.pwm_write(R_RPWM, 0)
 
         time.sleep(sleepTime)
@@ -90,26 +97,26 @@ while True:
     if keyboard.is_pressed('s'):
         print('backward')
         board.pwm_write(L_LPWM, 0)
-        board.pwm_write(L_RPWM, 0.5)
+        board.pwm_write(L_RPWM, speed)
         board.pwm_write(R_LPWM, 0)
-        board.pwm_write(R_RPWM, 0.5)
+        board.pwm_write(R_RPWM, speed)
 
         time.sleep(sleepTime)
 
     if keyboard.is_pressed('a'):
         print('left')
-        board.pwm_write(L_LPWM, 0.5)
+        board.pwm_write(L_LPWM, speed)
         board.pwm_write(L_RPWM, 0)
         board.pwm_write(R_LPWM, 0)
-        board.pwm_write(R_RPWM, 0.5)
+        board.pwm_write(R_RPWM, speed)
 
         time.sleep(sleepTime)
 
     if keyboard.is_pressed('d'):
         print('right')
         board.pwm_write(L_LPWM, 0)
-        board.pwm_write(L_RPWM, 0.5)
-        board.pwm_write(R_LPWM, 0.5)
+        board.pwm_write(L_RPWM, speed)
+        board.pwm_write(R_LPWM, speed)
         board.pwm_write(R_RPWM, 0)
 
         time.sleep(sleepTime)
@@ -126,7 +133,7 @@ while True:
     if keyboard.is_pressed('p'):
         print('auger turning')
         board.pwm_write(A_LPWM, 0)
-        board.pwm_write(A_RPWM, 0.5)
+        board.pwm_write(A_RPWM, speed)
 
         time.sleep(sleepTime)
     
@@ -134,4 +141,7 @@ while True:
         print("pump")
         board.digital_write(PUMP, 1)
         time.sleep(sleepTime)
+
+    if keyboard.is_pressed('m'):
+        board.shutdown()
 

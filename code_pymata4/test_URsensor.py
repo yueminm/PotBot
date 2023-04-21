@@ -8,8 +8,7 @@ import inspect
 if not hasattr(inspect, 'getargspec'):
     inspect.getargspec = inspect.getfullargspec
     
-file_path = inspect.getfile()
-print(file_path)
+
 
 
 TRIG = 51
