@@ -35,7 +35,7 @@ def load_capture():
 
 def load_classes():
     class_list = []
-    with open("classes.txt", "r") as f:
+    with open("YoloPothole\classes.txt", "r") as f:
         class_list = [cname.strip() for cname in f.readlines()]
     return class_list
 
