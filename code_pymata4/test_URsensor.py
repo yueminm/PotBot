@@ -23,12 +23,8 @@ def the_callback(data):
 def sonar(my_board, trigger_pin, echo_pin, callback):
     my_board.set_pin_mode_sonar(trigger_pin, echo_pin, callback)
     while True:
-        try:
-            time.sleep(.01)
-            print(f'data read: {my_board.sonar_read(TRIG)}')
-        except KeyboardInterrupt:
-            my_board.shutdown()
-            sys.exit(0)
+        time.sleep(.01)
+        print(f'data read: {my_board.sonar_read(TRIG)}')
 
 
 board = pymata4.Pymata4()

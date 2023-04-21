@@ -1,6 +1,7 @@
 from pymata4 import pymata4
 import time
 import keyboard
+import sys
 
 # Monkey patch to fix python 3.11 bug
 import inspect
@@ -42,6 +43,26 @@ board.set_pin_mode_pwm_output(A_LPWM)
 PUMP = 46
 board.set_pin_mode_digital_output(PUMP)
 
+# UR sensor
+TRIG = 51
+ECHO = 52
+DISTANCE_CM = 2
+
+
+def the_callback(data):
+    print(f'Distance in cm: {data[DISTANCE_CM]}')
+
+
+def sonar(my_board, trigger_pin, echo_pin, callback):
+    my_board.set_pin_mode_sonar(trigger_pin, echo_pin, callback)
+    while True:
+        try:
+            time.sleep(.01)
+            print(f'data read: {my_board.sonar_read(TRIG)}')
+        except KeyboardInterrupt:
+            my_board.shutdown()
+            sys.exit(0)
+
 sleepTime = 0.1
 
 # L_LEN = board.get_pin('d:50:o')
@@ -68,6 +89,9 @@ board.digital_write(A_RENABLE, 1)
 board.digital_write(A_LENABLE, 1)
 
 while True:
+    # UR senor
+    sonar(board, TRIG, ECHO, the_callback)
+    
     # Wheels
     # board.digital_write(L_LEN, 1)
     # board.digital_write(L_REN, 1)
