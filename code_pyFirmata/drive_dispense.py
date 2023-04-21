@@ -8,13 +8,6 @@ import inspect
 if not hasattr(inspect, 'getargspec'):
     inspect.getargspec = inspect.getfullargspec
 
-
-# board = {
-    # 'digital' : tuple(x for x in range(54)),
-    # 'analog' : tuple(x for x in range(16)),
-    # 'pwm' : tuple(x for x in range(2,14)),
-    # 'disabled' : (0,1,14,15)
-    # }
 board = ArduinoMega('COM5')
 
 L_LEN = board.get_pin('d:50:o')
@@ -50,6 +43,8 @@ while True:
     A_LPWM.write(0)
 
     pump.write(0)
+    
+    FillingFlag = 0
     
     if keyboard.is_pressed('w'):
         print('forward')
@@ -92,10 +87,16 @@ while True:
         time.sleep(sleepTime)
     
     if keyboard.is_pressed('p'):
+        FillingFlag = 1
         print('auger turning')
+        # A_LPWM.write(0)
+        # A_RPWM.write(0.5)
+        # time.sleep(sleepTime)
+        
+    if FillingFlag == 1:
         A_LPWM.write(0)
         A_RPWM.write(0.5)
-        time.sleep(sleepTime)
+        time.sleep(5)
     
     if keyboard.is_pressed('l'):
         print("pump")
