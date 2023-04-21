@@ -48,13 +48,15 @@ TRIG = 51
 ECHO = 52
 DISTANCE_CM = 2
 
-
 def the_callback(data):
     print(f'Distance in cm: {data[DISTANCE_CM]}')
 
+board.set_pin_mode_sonar(TRIG, ECHO, the_callback)
 
 def sonar(my_board, trigger_pin, echo_pin, callback):
     my_board.set_pin_mode_sonar(trigger_pin, echo_pin, callback)
+    print(f'data read: {my_board.sonar_read(TRIG)}')
+    time.sleep(.01)
     print(f'data read: {my_board.sonar_read(TRIG)}')
  
 sleepTime = 0.1
@@ -84,7 +86,7 @@ board.digital_write(A_LENABLE, 1)
 
 while True:
     # UR senor
-    sonar(board, TRIG, ECHO, the_callback)
+    print(f'data read: {board.sonar_read(TRIG)}')
     
     # Wheels
     # board.digital_write(L_LEN, 1)
