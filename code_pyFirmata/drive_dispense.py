@@ -96,6 +96,7 @@ while True:
     if FillingFlag == 1:
         A_LPWM.write(0)
         A_RPWM.write(0.5)
+        FillingFlag = 0
         time.sleep(5)
     
     if keyboard.is_pressed('l'):
