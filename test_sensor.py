@@ -54,10 +54,12 @@ while True:
     pulse_start = time.time()
     while echo.read() == 0:
         pulse_start = time.time()
+        pass
         
     pulse_end = time.time()
     while echo.read() == 1:
         pulse_end = time.time()
+        pass
 
     # Calculate the duration of the pulse and the distance
     pulse_duration = pulse_end - pulse_start
