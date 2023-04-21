@@ -74,8 +74,12 @@ thresh_high = 0
 NavigationFlag = 1
 FillingFlag = 0
 FlatteningFlag = 0
+MoveAwayFlag = 0
+OperationFinished = 0
 
-# FillingTime = 0
+FillingTime = 4
+FlatteningTime = 5
+MoveAwayTime = 5
 
 
 while True:
@@ -87,12 +91,13 @@ while True:
     A_RPWM.write(0)
     A_LPWM.write(0)
     
-    # PUMP.write(0)
+    PUMP.write(0)
 
     if NavigationFlag == 1:
     # Place holder: CV output x, y
     
         if (x > thresh_low and x < thresh_high):
+            # Go forward
             L_LPWM.write(0.5)
             L_RPWM.write(0)
             R_LPWM.write(0.5)
@@ -121,4 +126,38 @@ while True:
     if FillingFlag == 1:
         A_LPWM.write(0)
         A_RPWM.write(0.5)
+        FillingFlag = 0
         time.sleep(5)
+    
+    if FlatteningFlag == 1:
+        PUMP.write(1)
+        L_LPWM.write(0.5)
+        L_RPWM.write(0)
+        R_LPWM.write(0.5)
+        R_RPWM.write(0)
+        FlatteingFlag = 2
+        time.sleep(FlatteningTime)
+    
+    if FlatteningFlag == 2:
+        PUMP.write(1)
+        L_LPWM.write(0)
+        L_RPWM.write(0.5)
+        R_LPWM.write(0)
+        R_RPWM.write(0.5)
+        FlatteningFlag = 0
+        MoveAwayFlag = 1
+        time.sleep(FlatteningTime)
+    
+    if MoveAwayFlag == 1:
+        L_LPWM.write(0.5)
+        L_RPWM.write(0)
+        R_LPWM.write(0.5)
+        R_RPWM.write(0)
+        OperationFinished = 1
+        MoveAwayFlag = 0
+        time.sleep(MoveAwayTime)
+    
+    if OperationFinished == 1:
+        break
+    
+    
