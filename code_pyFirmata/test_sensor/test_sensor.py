@@ -14,27 +14,20 @@ board = ArduinoMega('COM5')
 trig = board.get_pin('d:52:o')
 echo = board.get_pin('d:51:i')
 
-it = util.Iterator(board)
-it.start()
-
-trig.write(0)
-time.sleep(2)
-
 while True:
-    time.sleep(0.5)
+    duration = echo.ping()
 
-    trig.write(1)   
-    time.sleep(0.00001)
-    trig.write(0)
-    
-    # print(echo.read())
-    while echo.read() == False:
-        start = time.time()
+    if duration:
+            # Normal distance (speed of sound based)
+            distance = util.ping_time_to_distance(duration)
 
-    while echo.read() == True:
-        end = time.time()
-    
-    TimeElapsed = end - start
-    distance = (TimeElapsed * 34300) / 2
+            # Distance based on calibration points.
+            calibration = [(680.0, 10.0), (1460.0, 20.0), (2210.0, 30.0)]
+            cal_distance = util.ping_time_to_distance(duration, calibration)
 
-    print("Measured Distance = {} cm".format(distance))
+            print ("Distance: \t%scm \t%scm (calibrated) \t(%ss)" \
+    % (distance, cal_distance, duration))
+    else:
+        print ("No distance!")
+
+    time.sleep(0.2)
