@@ -1,5 +1,5 @@
-# import cv2
-# import numpy as np
+import cv2
+import numpy as np
   
 # # Let's load a simple image with 3 black squares
 # image = cv2.imread('images/test_1.jpg')
