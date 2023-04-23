@@ -80,8 +80,7 @@ A_LPWM = board.get_pin('d:6:p')
 # Pump
 PUMP = board.get_pin('d:46:o')
 
-
-# Initialization
+# Motor Initialization
 L_LEN.write(1)
 L_REN.write(1)
 A_RENABLE.write(1)
