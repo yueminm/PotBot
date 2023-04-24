@@ -8,6 +8,7 @@ import os
 import platform
 import sys
 from pathlib import Path
+from subprocess import call, Popen
 
 import torch
 import YoloPothole.yolov5.ml_pothole_detection as dt
@@ -18,7 +19,7 @@ CONF_THRE = 0.35
 # define camera source
 FrontCam = 0
 BackCam = 1
-dt.detect_pothole(weights = MODEL_PATH, source = FrontCam)
+
 dt.detect_pothole(weights = MODEL_PATH, source = BackCam)
 # YOLOv5 🚀 by Ultralytics, AGPL-3.0 license
 
