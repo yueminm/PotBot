@@ -17,8 +17,8 @@ MODEL_PATH = 'YoloPothole\potholeYolo5s.pt'
 #MODEL_PATH = "YoloPothole\ivy.pt"
 CONF_THRE = 0.35
 # define camera source
-FrontCam = 0
-BackCam = 1
+FrontCam = 3
+BackCam = 2
 
 dt.detect_pothole(weights = MODEL_PATH, source = BackCam)
 # YOLOv5 🚀 by Ultralytics, AGPL-3.0 license
@@ -64,35 +64,35 @@ A_LENABLE.write(1)
 PUMP.write(0)
 
 """
-print('forward')
+# Forward
 L_LPWM.write(0.5)
 L_RPWM.write(0)
 R_LPWM.write(0.5)
 R_RPWM.write(0)
 
-print('backward')
+# Backward
 L_LPWM.write(0)
 L_RPWM.write(0.5)
 R_LPWM.write(0)
 R_RPWM.write(0.5)
 
-print('left')
+# Left
 L_LPWM.write(0.5)
 L_RPWM.write(0)
 R_LPWM.write(0)
 R_RPWM.write(0.5)
 
-print('right')
+# Right
 L_LPWM.write(0)
 L_RPWM.write(0.5)
 R_LPWM.write(0.5)
 R_RPWM.write(0)
 
-print('auger turning')
+# Auger
 A_LPWM.write(0)
 A_RPWM.write(0.5)
 
-print("pump")
+# Pump
 PUMP.write(1)
 """
 
