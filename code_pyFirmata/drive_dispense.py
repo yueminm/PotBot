@@ -27,6 +27,10 @@ pump = board.get_pin('d:46:o')
 
 sleepTime = 0.1
 
+FillingFlag = 0
+FlatteningFlag = 0
+
+pump.write(0)
 
 while True:
     L_LEN.write(1)
@@ -42,9 +46,8 @@ while True:
     A_RPWM.write(0) 
     A_LPWM.write(0)
 
-    pump.write(0)
+    # pump.write(0)
     
-    FillingFlag = 0
     
     if keyboard.is_pressed('w'):
         print('forward')
@@ -88,19 +91,41 @@ while True:
     
     if keyboard.is_pressed('p'):
         FillingFlag = 1
-        print('auger turning')
+        print('start auger')
         # A_LPWM.write(0)
         # A_RPWM.write(0.5)
         # time.sleep(sleepTime)
+    
+    if keyboard.is_pressed('o'):
+        FillingFlag = 0
+        print('stop auger')
         
     if FillingFlag == 1:
         A_LPWM.write(0)
         A_RPWM.write(0.5)
-        FillingFlag = 0
-        time.sleep(5)
+        # FillingFlag = 0
+        time.sleep(sleepTime)
+    
+    if FillingFlag == 0:
+        A_LPWM.write(0)
+        A_RPWM.write(0)
+        time.sleep(sleepTime)
     
     if keyboard.is_pressed('l'):
-        print("pump")
+        print("start pump")
+        FlatteningFlag = 1
+    
+    if keyboard.is_pressed('k'):
+        print("stop pump")
+        FlatteningFlag = 0
+    
+    if FlatteningFlag == 1:
         pump.write(1)
         time.sleep(sleepTime)
+        
+    if FlatteningFlag == 0:
+        pump.write(0)
+        time.sleep(sleepTime)
+        
+    
 
