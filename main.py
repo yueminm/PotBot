@@ -136,16 +136,16 @@ while True:
         
         if (xCenter < thresh_low):
             # Trun left
-            L_LPWM.write(0.5)
+            L_LPWM.write(1)
             L_RPWM.write(0)
             R_LPWM.write(0)
-            R_RPWM.write(0.5)
+            R_RPWM.write(1)
         
         if (xCenter > thresh_low):
             # Turn right
             L_LPWM.write(0)
-            L_RPWM.write(0.5)
-            R_LPWM.write(0.5)
+            L_RPWM.write(1)
+            R_LPWM.write(1)
             R_RPWM.write(0)
             
         if ():
@@ -166,18 +166,19 @@ while True:
         L_RPWM.write(0)
         R_LPWM.write(0.5)
         R_RPWM.write(0)
-        FlatteingFlag = 2
-        time.sleep(FlatteningTime)
-    
-    if FlatteningFlag == 2:
-        PUMP.write(1)
-        L_LPWM.write(0)
-        L_RPWM.write(0.5)
-        R_LPWM.write(0)
-        R_RPWM.write(0.5)
-        FlatteningFlag = 0
+        FlatteingFlag = 0
         MoveAwayFlag = 1
         time.sleep(FlatteningTime)
+    
+    # if FlatteningFlag == 2:
+    #     PUMP.write(1)
+    #     L_LPWM.write(0)
+    #     L_RPWM.write(0.5)
+    #     R_LPWM.write(0)
+    #     R_RPWM.write(0.5)
+    #     FlatteningFlag = 0
+    #     MoveAwayFlag = 1
+    #     time.sleep(FlatteningTime)
     
     if MoveAwayFlag == 1:
         L_LPWM.write(0.5)
