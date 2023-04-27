@@ -67,17 +67,17 @@ while True:
 
     if keyboard.is_pressed('a'):
         print('left')
-        L_LPWM.write(0.5)
+        L_LPWM.write(1)
         L_RPWM.write(0)
         R_LPWM.write(0)
-        R_RPWM.write(0.5)
+        R_RPWM.write(1)
         time.sleep(sleepTime)
 
     if keyboard.is_pressed('d'):
         print('right')
         L_LPWM.write(0)
-        L_RPWM.write(0.5)
-        R_LPWM.write(0.5)
+        L_RPWM.write(1)
+        R_LPWM.write(1)
         R_RPWM.write(0)
         time.sleep(sleepTime)
 
