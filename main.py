@@ -9,26 +9,34 @@ import platform
 import sys
 from pathlib import Path
 from subprocess import call, Popen
-
+import json
+import pandas as pd
 import torch
-import YoloPothole.yolov5.ml_pothole_detection as dt
+# import YoloPothole.yolov5.ml_pothole_detection as dt
 
-MODEL_PATH = 'YoloPothole\potholeYolo5s.pt'
-#MODEL_PATH = "YoloPothole\ivy.pt"
-CONF_THRE = 0.35
-# define camera source
-FrontCam = 3
-BackCam = 2
+# MODEL_PATH = 'YoloPothole\potholeYolo5s.pt'
+# #MODEL_PATH = "YoloPothole\ivy.pt"
+# CONF_THRE = 0.35
+# # define camera source
+# FrontCam = 3
+# BackCam = 2
 
-dt.detect_pothole(weights = MODEL_PATH, source = BackCam)
+# dt.detect_pothole(weights = MODEL_PATH, source = BackCam)
 # YOLOv5 🚀 by Ultralytics, AGPL-3.0 license
 
+FrontCam = 3
+DownCam = 2
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
+
+FCam = pd.read_csv("YoloPothole/yolov5/pothole_detected%i.txt"%FrontCam)
+# print(FCam)
+DCam = open("YoloPothole/yolov5/pothole_detected%i.txt"%DownCam, "r")
+# print(DCam.read())
 
 # Monkey patch to fix python 3.11 bug
 import inspect
@@ -97,8 +105,8 @@ PUMP.write(1)
 """
 
 sleepTime = 0.1
-thresh_low = 0
-thresh_high = 0
+thresh_low = 0.4
+thresh_high = 0.6
 
 NavigationFlag = 1
 FillingFlag = 0
@@ -123,36 +131,57 @@ while True:
 
     if NavigationFlag == 1:
     # Place holder: CV output x, y
-        FCam = open("pothole_detected%i.txt"%FrontCam, "r")
-        print(FCam.read())
-        xCenter = 0
-        yCenter = 1
-        if (xCenter > thresh_low and yCenter < thresh_high):
+        # FCam = open("YoloPothole/yolov5/pothole_detected%i.txt"%FrontCam)
+        xywh = pd.read_csv("YoloPothole/yolov5/pothole_detected%i.csv"%FrontCam, header = None)
+        print(xywh)
+        # print(FCam.read())
+        # FCam.close()
+        # FCam_read = FCam.read()
+        # FCam_list = FCam_read.split(',')
+        xCenter = xywh[0][1]
+        print(xCenter)
+        # yCenter = FCam[1]
+        if (xCenter == 0):
+            print("Not detected")
+            L_LPWM.write(0.1)
+            L_RPWM.write(0)
+            R_LPWM.write(0.1)
+            R_RPWM.write(0)
+            continue
+            
+        elif (xCenter > thresh_low and xCenter < thresh_high):
             # Go forward
+            print("Go Forward")
             L_LPWM.write(0.5)
             L_RPWM.write(0)
             R_LPWM.write(0.5)
             R_RPWM.write(0)
+            continue
         
-        if (xCenter < thresh_low):
+        elif (xCenter < thresh_low):
             # Trun left
+            print("Turn Left")
             L_LPWM.write(1)
             L_RPWM.write(0)
             R_LPWM.write(0)
             R_RPWM.write(1)
+            continue
         
-        if (xCenter > thresh_low):
+        elif (xCenter > thresh_low):
+            print("Turn Right")
             # Turn right
             L_LPWM.write(0)
             L_RPWM.write(1)
             R_LPWM.write(1)
             R_RPWM.write(0)
-            
-        if ():
-            NavigationFlag = 0
-            FillingFlag = 1
+            continue
         
-        continue
+            
+        # if ():
+        #     NavigationFlag = 0
+        #     FillingFlag = 1
+        
+        # continue
     
     if FillingFlag == 1:
         A_LPWM.write(0)
